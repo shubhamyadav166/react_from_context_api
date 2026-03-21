@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react"
 import { TodoProvider } from "./context"
+import TodoForm from "./components/TodoForm"
+import { TodoItem } from "./components"
 
 
 function App() {
+  // context api-works
 
   const [todos, setTodo] = useState([])
 
@@ -18,7 +22,15 @@ function App() {
   const toggleComplete = (id) => {
     setTodo((prev) => prev.map((preVal) => preVal.id === id ? { ...preVal, completed: !preVal.completed } : preVal))
   }
+  // local storage
 
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   return (
     <TodoProvider vlue={{ todos, addTodo, deleteTodo, updateTodo, deleteTodo, toggleComplete }}>
@@ -27,9 +39,14 @@ function App() {
           <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
           <div className="mb-4">
             {/* Todo form goes here */}
+
+            {<TodoForm />}
           </div>
           <div className="flex flex-wrap gap-y-3">
             {/*Loop and Add TodoItem here */}
+            {todos.map((todo) => (
+              <div key={todo.id} className="w-full"> <TodoItem todo={todo} /> </div>
+            ))}
           </div>
         </div>
       </div>
