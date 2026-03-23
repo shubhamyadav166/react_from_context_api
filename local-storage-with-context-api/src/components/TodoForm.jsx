@@ -12,7 +12,7 @@ function TodoForm() {
 
         e.preventDefault()
         if (!todo) return
-        addTodo({ todo, completed: false })
+        addTodo({ todo, completed: true })
         // console.log(addTodo);
         setTodo("")
     }

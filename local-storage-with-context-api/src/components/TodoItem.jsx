@@ -2,14 +2,17 @@ import { useState } from "react";
 import { useTodo } from "../context";
 
 function TodoItem({ todo }) {
-    console.log(todo.todo.todo);
-    console.log(todo.completed);
+    console.log("main todo", todo.todo.todo);
+    console.log("todo completed", todo.completed);
 
     const [isTodoEditAble, setIsTodoEditAble] = useState(false)
-    const [todoMsg, setTodoMsg] = useState({ todo })
-    // console.log(todoMsg.todo.todo.todo);
-
     const { updateTodo, completed, deleteTodo, toggleComplete } = useTodo()
+
+    console.log("is todo editable", isTodoEditAble);
+    ///local constant variable
+    const [todoMsg, setTodoMsg] = useState(todo.todo)
+    console.log("todo msge:", todoMsg);
+
 
     const editTodo = () => {
         console.log(todo.id);
@@ -35,8 +38,8 @@ function TodoItem({ todo }) {
                 type="text"
                 className={`border outline-none w-full bg-transparent rounded-lg ${isTodoEditAble ? "border-black/10 px-2" : "border-transparent"
                     } ${todo.completed ? "line-through" : ""}`}
-                value={todoMsg.todo.todo.todo}
-                onChange={(e) => setTodoMsg(e.target.name = e.target.value)}
+                value={todoMsg.todo}
+                onChange={(e) => setTodoMsg(e.target.value)}
                 readOnly={!isTodoEditAble}
 
             />
@@ -45,13 +48,11 @@ function TodoItem({ todo }) {
 
                 className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
                 onClick={() => {
-                    if (!todo.completed) return;
-
                     if (isTodoEditAble) {
                         editTodo();
-                    } else setIsTodoEditAble((prev) => !prev);
+                    } else setIsTodoEditAble(prev => !prev);
                 }}
-                disabled={todo.completed}
+
             >
                 {isTodoEditAble ? "📁" : "✏️"}
             </button>
