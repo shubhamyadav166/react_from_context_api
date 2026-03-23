@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useTodo } from "../context";
 
 function TodoItem({ todo }) {
-    console.log({ todo });
+    console.log(todo.todo.todo);
+    console.log(todo.completed);
 
     const [isTodoEditAble, setIsTodoEditAble] = useState(false)
     const [todoMsg, setTodoMsg] = useState({ todo })
@@ -11,11 +12,13 @@ function TodoItem({ todo }) {
     const { updateTodo, completed, deleteTodo, toggleComplete } = useTodo()
 
     const editTodo = () => {
-        updateTodo(todo.todo, { todo: todoMsg })
+        console.log(todo.id);
+
+        updateTodo(todo.todo.id, { todo: todoMsg })
     }
 
     const checkMarked = () => {
-        toggleComplete(todo.todo.id)
+        toggleComplete(todo.id)
     }
     return (
         <div
@@ -26,16 +29,16 @@ function TodoItem({ todo }) {
                 type="checkbox"
                 className="cursor-pointer"
                 checked={todo.completed}
-                onChange={toggleComplete}
+                onChange={checkMarked}
             />
             <input
                 type="text"
                 className={`border outline-none w-full bg-transparent rounded-lg ${isTodoEditAble ? "border-black/10 px-2" : "border-transparent"
-                    } && ${todo.completed ? "line-through" : ""}`}
+                    } ${todo.completed ? "line-through" : ""}`}
                 value={todoMsg.todo.todo.todo}
                 onChange={(e) => setTodoMsg(e.target.name = e.target.value)}
                 readOnly={!isTodoEditAble}
-                id="makeEditable"
+
             />
             {/* Edit, Save Button */}
             <button
@@ -55,7 +58,7 @@ function TodoItem({ todo }) {
             {/* Delete Todo Button */}
             <button
                 className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"
-                onClick={() => deleteTodo(todo.todo.id)}
+                onClick={() => deleteTodo(todo.id)}
             >
                 ❌
             </button>

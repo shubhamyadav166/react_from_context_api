@@ -8,6 +8,7 @@ function App() {
   // context api-works
 
   const [todos, setTodo] = useState([])
+  console.log(todos);
 
   const addTodo = (todo) => {
     setTodo((prev) => [{ id: Date.now(), todo }, ...prev])
@@ -21,6 +22,8 @@ function App() {
   }
   const toggleComplete = (id) => {
     setTodo((prev) => prev.map((preVal) => preVal.id === id ? { ...preVal, completed: !preVal.completed } : preVal))
+
+
   }
   // local storage
 
